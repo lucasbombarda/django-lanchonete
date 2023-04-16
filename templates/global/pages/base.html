@@ -1,18 +1,22 @@
 {% load static %}
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt-br" class="h-100">
 
 <head>
     {% include 'global/partials/head.html'%}
-    <title>{% block title %} TESTE {% endblock title %}</title>
+    <title>{% block title %}{% endblock title %} | Big Brother Lanches</title>
 </head>
 
-
-<body>
-    <div class="main-content">
-        {% block content %} <p>CONTEÚDO</p> {% endblock content %}
-    </div>
-
+<body class="d-flex flex-column h-100">
+    {% block header %}
+    {% endblock header %}
+    <main>
+        <div class="main-content container">
+            {% block content %}
+            
+            {% endblock content %}
+        </div>
+    </main>
     {% include 'global/partials/footer.html' %}
 </body>
 
