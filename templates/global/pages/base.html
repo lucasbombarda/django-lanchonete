@@ -1,0 +1,19 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    {% include 'global/partials/head.html'%}
+    <title>{% block title %} TESTE {% endblock title %}</title>
+</head>
+
+
+<body>
+    <div class="main-content">
+        {% block content %} <p>CONTEÚDO</p> {% endblock content %}
+    </div>
+
+    {% include 'global/partials/footer.html' %}
+</body>
+
+</html>
