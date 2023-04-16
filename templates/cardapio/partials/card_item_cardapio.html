@@ -1,6 +1,11 @@
-<div class="col">
-    <div class="card" style="width: 18rem;">
-        <img class="card-img-top" src="{{ item.imagem.url }}" alt="Card image cap">
+{% load static %}
+<div class="col mx-auto">
+    <div class="card " style="width: 18rem;">
+        {% if item.imagem %}
+            <img class="card-img-top" src="{{ item.imagem.url }}" alt="Card image cap">
+        {% else %}
+            <img class="card-img-top" src="{% static 'assets/image-not-found.png' %}" alt="Card image cap">
+        {% endif %}
         <div class="card-body">
             <p class="card-title">{{ item.numero }}. {{ item.nome }}</p>
             <p class="card-subtitle">{{ item.descricao }}</p>
