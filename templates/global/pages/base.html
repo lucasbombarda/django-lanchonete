@@ -4,6 +4,7 @@
 
 <head>
     {% include 'global/partials/head.html'%}
+    <link rel="icon" type="image/x-icon" href="{% static 'assets/burger-icon.svg' %}">
     <title>{% block title %}{% endblock title %} | Big Brother Lanches</title>
 </head>
 
@@ -13,7 +14,7 @@
     <main>
         <div class="main-content container">
             {% block content %}
-            
+
             {% endblock content %}
         </div>
     </main>
