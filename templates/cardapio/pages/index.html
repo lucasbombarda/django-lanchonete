@@ -5,6 +5,13 @@
 {% block header %} {% include 'cardapio/partials/header.html' %} {% endblock header %}
 
 {% block content %}
+{% for message in messages %}
+    <div class="messages">
+        <div class="alert alert-primary" role="alert">
+            {{ message }}
+        </div>
+    </div>
+{% endfor %}
 
 <div class="container row row-cols-auto">
 

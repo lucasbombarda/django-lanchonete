@@ -7,6 +7,13 @@
 {% block header %}{% include 'usuarios/partials/header.html' %}{% endblock header %}
 
 {% block content %}
+{% for message in messages %}
+    <div class="messages">
+        <div class="alert alert-primary" role="alert">
+            {{ message }}
+        </div>
+    </div>
+{% endfor %}
 
 <div class="pt-5 d-flex justify-content-center align-items-center">
     <form action="{% url 'usuarios:login' %}" method="post">
@@ -23,18 +30,6 @@
             <a href="{% url 'cardapio:home' %}"><button type="button" class="btn btn-danger">Voltar</button></a>
         </div>
 
-        {% comment %} 
-        <div class="mb-3">
-          <label for="nome_usuario" class="form-label">Usuário:</label>
-          <input type="username" class="form-control" id="username" aria-describedby="username">
-        </div>
-        <div class="mb-3">
-          <label for="senha_usuario" class="form-label">Senha:</label>
-          <input type="password" class="form-control" id="senha">
-        </div>
-        
-         
-        {% endcomment %}
     </form>     
 </div>
 

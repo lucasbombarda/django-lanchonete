@@ -1,0 +1,19 @@
+{% extends 'global/pages/base.html' %}
+
+{% load static %}
+
+{% block title %}Logout{% endblock title %}
+
+{% block header %}{% include 'usuarios/partials/header.html' %}{% endblock header %}
+
+{% block content %}
+{% for message in messages %}
+    <div class="messages">
+        <div class="alert alert-primary" role="alert">
+            {{ message }}
+        </div>
+    </div>
+{% endfor %}
+<a href="{% url 'cardapio:home' %}"><button type="button" class="btn btn-danger">Voltar</button></a>
+
+{% endblock content %}
