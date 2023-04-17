@@ -1,9 +1,15 @@
+{% load static %}
 <header class="header bg-dark">
-    <div class="main-header container text-center mt-auto py-2">
-        <h1>
-            <a class="main-logo text-decoration-none text-white-50" href="{% url 'cardapio:home' %}">
-                <span class="main-logo-text">Cardápio</span>
+    <div class="main-header container mt-auto py-2 position-relative">
+            <a href="{% url 'usuarios:login' %}" class="user-login position-absolute top-50 start-0 translate-middle-y">
+                <img src="{% static 'assets/user-login.png' %}" alt="User Login" style="max-width: 30px; max-height: 30px;">
             </a>
-        </h1>
+        
+            <h1 class="text-center">
+                <a class="main-logo text-decoration-none text-white-50" href="{% url 'cardapio:home' %}">
+                    <span class="main-logo-text">Cardápio</span>
+                </a>
+            </h1>
+        
     </div>
 </header>

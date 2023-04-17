@@ -13,7 +13,7 @@ class ItemCardapio(models.Model):
     nome = models.CharField(max_length=100, null=False, blank=True, default='')
     descricao = models.TextField()
     preco_unitario = models.FloatField(null=False, blank=False, default=0.0)
-    imagem = models.ImageField(upload_to='cardapio/covers/%Y/%m/%d', blank=True, default='')
+    imagem = models.ImageField(upload_to='cardapio/covers', blank=True, default='')
 
     criado_em = models.DateTimeField(auto_created=True)
     modificado_em = models.DateTimeField(auto_now=True)
