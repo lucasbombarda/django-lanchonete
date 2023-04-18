@@ -21,7 +21,7 @@ def login(request):
                 auth.login(request, usuario)
                 messages.success(request, "Autenticado!")
                 request.session["autenticado"] = True
-                return redirect('cardapio:home')
+                return redirect('painel:home')
             else:
                 messages.error(request, "Usuário e/ou senha incorretos!")
                 request.session["autenticado"] = False

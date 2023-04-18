@@ -3,14 +3,14 @@
     <div class="main-header container mt-auto py-2 position-relative">
         
         {% if request.session.autenticado %}
-        <a href="{% url 'usuarios:logout' %}" class="user-login position-absolute top-50 start-0 translate-middle-y">
-            <img src="{% static 'assets/user-logout.png' %}" alt="User Logout" style="max-width: 30px; max-height: 30px;">
-        </a>
-    {% else %}
-        <a href="{% url 'usuarios:login' %}" class="user-login position-absolute top-50 start-0 translate-middle-y">
-            <img src="{% static 'assets/user-login.png' %}" alt="User Login" style="max-width: 30px; max-height: 30px;">
-        </a>
-    {% endif %}
+            <a href="{% url 'painel:home' %}" class="user-login position-absolute top-50 start-0 translate-middle-y">
+                <img src="{% static 'assets/icon-painel.png' %}" alt="User Logout" style="max-width: 30px; max-height: 30px;">
+            </a>
+        {% else %}
+            <a href="{% url 'usuarios:login' %}" class="user-login position-absolute top-50 start-0 translate-middle-y">
+                <img src="{% static 'assets/user-login.png' %}" alt="User Login" style="max-width: 30px; max-height: 30px;">
+            </a>
+        {% endif %}
             
         <h1 class="text-center">
             <a class="main-logo text-decoration-none text-white-50" href="{% url 'cardapio:home' %}">

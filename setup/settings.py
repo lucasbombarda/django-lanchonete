@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     # MEUS APPS
     'apps.cardapio.apps.CardapioConfig',
     'apps.usuarios.apps.UsuariosConfig',
+    'apps.painel.apps.PainelConfig',
 ]
 
 MIDDLEWARE = [
