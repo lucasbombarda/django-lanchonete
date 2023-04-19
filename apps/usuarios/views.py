@@ -27,7 +27,7 @@ def login(request):
                 request.session["autenticado"] = False
                 return redirect('usuarios:login')
 
-    return render(request, 'usuarios/pages/login.html', context={"form": form, "message":messages, "is_authenticated": request.user.is_authenticated})
+    return render(request, 'usuarios/pages/login.html', context={"form": form, "message":messages})
 
 def logout(request):
     auth.logout(request)

@@ -12,6 +12,7 @@
     {% block header %}
     {% endblock header %}
     <main>
+        {% block navbar %}{% endblock navbar %}
         <div class="main-content container">
             {% block content %}
 
@@ -19,6 +20,8 @@
         </div>
     </main>
     {% include 'global/partials/footer.html' %}
+    <script src="{% static 'js/jquery.js' %}"></script>
+    <script src="{% static 'js/bootstrap.bundle.min.js' %}"></script>
 </body>
 
 </html>

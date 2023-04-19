@@ -4,8 +4,21 @@
 
 {% block header %}{% include 'painel/partials/header.html' %}{% endblock header %}
 
+{% block navbar %}
+
+{% include 'global/partials/navbar.html' %}
+
+{% endblock navbar %}
+
 {% block content %}
 
-
+{% for message in messages %}
+    <div class="messages">
+        <div class="alert alert-primary" role="alert">
+            {{ message }}
+        </div>
+    </div>
+{% endfor %}
 
 {% endblock content %}
+
