@@ -12,13 +12,7 @@
 
 {% block content %}
 
-{% for message in messages %}
-    <div class="messages">
-        <div class="alert alert-primary" role="alert">
-            {{ message }}
-        </div>
-    </div>
-{% endfor %}
+{% include 'global/partials/message.html' %}
 
 {% endblock content %}
 

@@ -1,0 +1,28 @@
+{% extends 'global/pages/base.html' %}
+
+{% block title %}Cadastro de item{% endblock title %}
+
+{% block header %}{% include 'cardapio/partials/header.html' %}{% endblock header %}
+
+{% block navbar %}
+{% include 'global/partials/navbar.html' %}
+{% endblock navbar %}
+
+{% block content %}
+{% include 'global/partials/message.html' %}
+
+<h1 class='text-center'>Cadastro de Item de cardápio</h1>
+
+<form action="#" method="post">
+    {% csrf_token %}
+    {{item}}
+        <h1>Teste Edit</h1>
+        <div class="buttons-login-form pb-2">
+            <button type="submit" class="btn btn-primary">Editar</button>
+            <a href="{% url 'cardapio:selecionar_item_edicao' %}"><button type="button" class="btn btn-danger">Voltar</button></a>
+        </div>
+
+</form>
+
+
+{% endblock content %}

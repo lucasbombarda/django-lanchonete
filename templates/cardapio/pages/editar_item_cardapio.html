@@ -1,0 +1,20 @@
+{% extends 'global/pages/base.html' %}
+
+{% block title %}Cadastro de item{% endblock title %}
+
+{% block header %}{% include 'cardapio/partials/header.html' %}{% endblock header %}
+
+{% block navbar %}
+{% include 'global/partials/navbar.html' %}
+{% endblock navbar %}
+
+{% block content %}
+{% include 'global/partials/message.html' %}
+
+<h1 class='text-center'>Selecione o item para editar</h1>
+
+{% for item in itenscardapio %}
+    <a href="{% url 'cardapio:editar_item' item.id %}">{{item.id}}. {{item.nome}}</a><br>
+{% endfor %}
+
+{% endblock content %}

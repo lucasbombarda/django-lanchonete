@@ -1,6 +1,6 @@
 {% load static %}
 <div class="col mx-auto p-2">
-    <div class="card" style="width: 18rem;">
+    <div class="card cartao-item-cardapio" style="width: 18rem;">
         {% if item.imagem %}
             <img class="card-img-top" src="{{ item.imagem.url }}" alt="Card image cap">
         {% else %}
@@ -9,7 +9,7 @@
         <div class="card-body">
             <p class="card-title">{{ item.numero }}. {{ item.nome }}</p>
             <p class="card-subtitle">{{ item.descricao }}</p>
-            <p class="card-text">R$ {{ item.preco_unitario }}</p>
+            <p class="card-text">R$ {{ item.preco_unitario|floatformat:"2" }}</p>
         </div>
     </div>
 </div>

@@ -11,16 +11,16 @@
 {% block content %}
 {% include 'global/partials/message.html' %}
 
-<h1 class='text-center'>Cadastro de Item de cardápio</h1>
+<h1 class='text-center'>Cadastro de Tipo de item</h1>
 
-<form action="{% url 'cardapio:cardapio_criar' %}" method="post">
+<form action="{% url 'cardapio:cardapio_tipo_criar' %}" method="post">
     {% csrf_token %}
         {% for field in form %}
             <div class="mb-3 campo-formulario">
                 <label for="{{ field.id_for_label }}" class="form-label">{{field.label}}</label>
                 {{ field }}
                 {{ field.errors }}
-            </div>  
+            </div>
         
         {% endfor %}
     
