@@ -55,6 +55,9 @@ class ItemCardapioForm(forms.ModelForm):
                 attrs={
                     'class': 'form-control',
                 }),
+            'imagem': forms.FileInput(attrs={
+                    'class': 'form-control',
+                }),
         }
 
 class TipoItemForm(forms.ModelForm):

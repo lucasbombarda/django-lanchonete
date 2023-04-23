@@ -18,3 +18,7 @@
     display: flex!important;
     justify-content: space-between;
 }
+
+.itens-editar a {
+    text-decoration: none;
+}

@@ -15,19 +15,19 @@
 
 <form action="{% url 'cardapio:cardapio_tipo_criar' %}" method="post">
     {% csrf_token %}
-        {% for field in form %}
-            <div class="mb-3 campo-formulario">
-                <label for="{{ field.id_for_label }}" class="form-label">{{field.label}}</label>
-                {{ field }}
-                {{ field.errors }}
-            </div>
-        
-        {% endfor %}
-    
-        <div class="buttons-login-form pb-2">
-            <button type="submit" class="btn btn-primary">Cadastrar</button>
-            <a href="{% url 'painel:home' %}"><button type="button" class="btn btn-danger">Voltar</button></a>
-        </div>
+    {% for field in form %}
+    <div class="mb-3 campo-formulario">
+        <label for="{{ field.id_for_label }}" class="form-label">{{field.label}}</label>
+        {{ field }}
+        {{ field.errors }}
+    </div>
+
+    {% endfor %}
+
+    <div class="buttons-login-form pb-2">
+        <button type="submit" class="btn btn-primary">Cadastrar</button>
+        <a href="{% url 'painel:home' %}"><button type="button" class="btn btn-danger">Voltar</button></a>
+    </div>
 
 </form>
 

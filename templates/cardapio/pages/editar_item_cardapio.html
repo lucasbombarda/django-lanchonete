@@ -11,10 +11,34 @@
 {% block content %}
 {% include 'global/partials/message.html' %}
 
+{% if itenscardapio %}
 <h1 class='text-center'>Selecione o item para editar</h1>
-
-{% for item in itenscardapio %}
-    <a href="{% url 'cardapio:editar_item' item.id %}">{{item.id}}. {{item.nome}}</a><br>
-{% endfor %}
-
+{% endif %}
+<div class="itens-editar">
+    {% if itenscardapio %}
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th scope="col">Número</th>
+                <th scope="col">Nome</th>
+                <th scope="col">Categoria</th>
+                <th scope="col">Valor</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in itenscardapio %}
+            <tr>
+                <td><a href="{% url 'cardapio:editar_item' item.id %}">{{ item.numero }}</a></td>
+                <td><a href="{% url 'cardapio:editar_item' item.id %}">{{ item.nome }}</a></td>
+                <td>{{ item.tipo }}</td>
+                <td>{{ item.preco_unitario|floatformat:"2" }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+    <br>
+    <h3>Não existem itens para editar. Crie um <a href="{% url 'cardapio:cardapio_cadastro' %}">clicando aqui.</a></h3>
+    {% endif %}
+</div>
 {% endblock content %}

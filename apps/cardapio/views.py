@@ -12,7 +12,7 @@ def home(request):
 
 @login_required(login_url='usuarios:login')
 def cadastro_cardapio(request):
-    item_cardapio = request.session.get('formulario_cadastro_item_cardapio', None) 
+    item_cardapio = request.session.get('formulario_cadastro_item_cardapio', None)
     form = ItemCardapioForm(item_cardapio)
     
     return render(request, 'cardapio/pages/cadastro_cardapio.html', context={'form': form})
@@ -26,7 +26,7 @@ def criar_item_cardapio(request):
     POST = request.POST
 
     request.session['formulario_cadastro_item_cardapio'] = POST
-    form = ItemCardapioForm(POST)
+    form = ItemCardapioForm(POST, files=request.FILES)
 
     if form.is_valid():
         form.save()
