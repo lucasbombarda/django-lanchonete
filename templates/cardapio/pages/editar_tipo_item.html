@@ -1,0 +1,40 @@
+{% extends 'global/pages/base.html' %}
+
+{% block title %}Edição de item{% endblock title %}
+
+{% block header %}{% include 'cardapio/partials/header.html' %}{% endblock header %}
+
+{% block navbar %}
+{% include 'global/partials/navbar.html' %}
+{% endblock navbar %}
+
+{% block content %}
+{% include 'global/partials/message.html' %}
+
+{% if situacoes %}
+<h1 class='text-center'>Selecione o item para editar</h1>
+{% endif %}
+<div class="itens-editar">
+    {% if situacoes %}
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th scope="col">Tipo</th>
+                <th scope="col">Situação</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for situacao in situacoes %}
+            <tr>
+                <td><a href="{% url 'cardapio:editar_tipo_item' situacao.id %}">{{ situacao.nome }}</a></td>
+                <td><a href="{% url 'cardapio:editar_tipo_item' situacao.id %}">{% if situacao.ativo %}Ativo{% else %}Inativo{% endif %}</a></td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+    <br>
+    <h3>Não existem itens para editar. Crie um <a href="{% url 'cardapio:cardapio_tipo_criar' %}">clicando aqui.</a></h3>
+    {% endif %}
+</div>
+{% endblock content %}

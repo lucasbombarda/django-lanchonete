@@ -3,7 +3,7 @@ from django.contrib.auth.decorators import login_required
 from django.http import Http404
 from django.contrib import messages
 
-from .models import ItemCardapio
+from .models import ItemCardapio, TipoItem
 from .forms import ItemCardapioForm, TipoItemForm
 
 def home(request):
@@ -57,10 +57,40 @@ def criar_tipo_item(request):
 
     return redirect('cardapio:cardapio_cadastro_tipo')
 
+@login_required(login_url='usuarios:login')
 def listar_todos_itens_cardapio_para_editar(request):
     itenscardapio = ItemCardapio.objects.all().order_by('id')
     return render(request, 'cardapio/pages/editar_item_cardapio.html', context={"itenscardapio": itenscardapio})
 
+@login_required(login_url='usuarios:login')
 def editar_item_cardapio(request, id):
-    item = ItemCardapio.objects.filter(id=id)
-    return render(request, 'cardapio/pages/form_editar_item_cardapio.html', context={'item': item})
+    item = ItemCardapio.objects.filter(pk=id).first()
+    form = ItemCardapioForm(
+        data=request.POST or None, 
+        files=request.FILES or None,
+        instance=item)
+
+    if form.is_valid():
+        item = form.save()
+        messages.success(request, "Item editado com sucesso!")
+
+    return render(request, 'cardapio/pages/form_editar_item_cardapio.html', context={'form': form})
+
+@login_required(login_url='usuarios:login')
+def listar_todos_tipos_itens_para_editar(request):
+    situacoes = TipoItem.objects.all().order_by('id')
+    return render(request, 'cardapio/pages/editar_tipo_item.html', context={"situacoes": situacoes})
+
+
+@login_required(login_url='usuarios:login')
+def editar_tipo_item_cardapio(request, id):
+    tipo = TipoItem.objects.filter(pk=id).first()
+    form = TipoItemForm(
+        data=request.POST or None, 
+        instance=tipo)
+
+    if form.is_valid():
+        tipo = form.save()
+        messages.success(request, "Tipo editado com sucesso!")
+
+    return render(request, 'cardapio/pages/form_editar_tipo_item.html', context={'form': form})

@@ -22,3 +22,7 @@
 .itens-editar a {
     text-decoration: none;
 }
+
+.img-lanche {
+    max-width: 25%;
+}

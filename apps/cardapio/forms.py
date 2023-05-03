@@ -2,6 +2,11 @@ from django import forms
 from .models import ItemCardapio, TipoItem
 
 class ItemCardapioForm(forms.ModelForm):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        tipos_ativos = TipoItem.objects.filter(ativo=True)
+        self.fields['tipo'].queryset = tipos_ativos
+
     class Meta:
         model = ItemCardapio
 
@@ -13,10 +18,6 @@ class ItemCardapioForm(forms.ModelForm):
             'descricao',
             'preco_unitario',
             'imagem'
-        ]
-
-        exclude = [
-            'criado_em',
         ]
 
         labels = {

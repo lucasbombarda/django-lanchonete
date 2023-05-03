@@ -1,6 +1,6 @@
 {% extends 'global/pages/base.html' %}
 
-{% block title %}Cadastro de item{% endblock title %}
+{% block title %}Edição de item{% endblock title %}
 
 {% block header %}{% include 'cardapio/partials/header.html' %}{% endblock header %}
 
@@ -23,6 +23,7 @@
                 <th scope="col">Nome</th>
                 <th scope="col">Categoria</th>
                 <th scope="col">Valor</th>
+                <th scope="col">Situação</th>
             </tr>
         </thead>
         <tbody>
@@ -32,6 +33,7 @@
                 <td><a href="{% url 'cardapio:editar_item' item.id %}">{{ item.nome }}</a></td>
                 <td>{{ item.tipo }}</td>
                 <td>{{ item.preco_unitario|floatformat:"2" }}</td>
+                <td>{% if item.ativo %} Ativo {% else %} Inativo {% endif %}</td>
             </tr>
             {% endfor %}
         </tbody>

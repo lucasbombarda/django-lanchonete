@@ -14,4 +14,7 @@ urlpatterns = [
 
     path("cardapio/cadastro/editar", views.listar_todos_itens_cardapio_para_editar, name='selecionar_item_edicao'),
     path("cardapio/cadastro/<int:id>/editar", views.editar_item_cardapio, name='editar_item'),
+
+    path("cardapio/cadastro/tipo/editar", views.listar_todos_tipos_itens_para_editar, name='selecionar_tipo_item_edicao'),
+    path("cardapio/cadastro/tipo/<int:id>/editar", views.editar_tipo_item_cardapio, name='editar_tipo_item'),
 ]
