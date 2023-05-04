@@ -22,4 +22,4 @@ urlpatterns = [
     path("cardapio/cadastro/tipo/<int:id>/editar", views.editar_tipo_item_cardapio, name='editar_tipo_item'),
 ]
 
-
+handler403 = 'apps.cardapio.views.custom_403'
