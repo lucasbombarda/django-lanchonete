@@ -23,7 +23,6 @@ class StatusPedido(models.Model):
     
 class Pedido(models.Model):
     numero_mesa = models.IntegerField(null=False)
-    observacao = models.TextField(null=True, blank=True, default="")
     valor_total = models.FloatField(null=False, blank=False, default=0.0)
 
     criado_em = models.DateTimeField(auto_now_add=True)
@@ -35,8 +34,9 @@ class Pedido(models.Model):
 
 
 class ItensPedido(models.Model):
-    numero_pedido = models.ForeignKey(Pedido, on_delete=models.SET_NULL, null=True, blank=True, default="")
+    numero_pedido = models.ForeignKey(Pedido, on_delete=models.SET_NULL, null=True, blank=True, default="", related_name='itens')
     item = models.ForeignKey(ItemCardapio, on_delete=models.SET_NULL, null=True, blank=True, default="")
+    observacao = models.CharField(max_length=100, null=True, blank=True)
 
     quantidade = models.IntegerField(null=False, blank=False, default=0)
     valor_unitario = models.FloatField(null=False)

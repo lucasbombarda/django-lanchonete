@@ -1,7 +1,7 @@
 {% extends 'global/pages/base.html' %}
 {% load static %}
 
-{% block title %}Pedidos{% endblock title %}
+{% block title %}Novo pedido{% endblock title %}
 
 {% block header %}
 
@@ -17,7 +17,7 @@
 
 {% block content %}
 
-<form action="#" method="post">
+<form action="{% url 'pedido:confirmar_pedido' %}" method="post">
 
     {% csrf_token %}
 
@@ -44,6 +44,13 @@
 {% endblock content %}
 
 {% block js %}
+
+<script>
+    $(document).ready(function () {
+        $.Admin.formset.init();
+    });
+</script>
 <script src="{% static 'js/script.js' %}"></script>
+
 
 {% endblock js %}

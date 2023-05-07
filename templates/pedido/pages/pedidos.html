@@ -16,6 +16,11 @@
 
 {% block content %}
 
-TESTE PEDIDOS
+{% for pedido in pedidos %}
+<div class="pedido">
+    {% include 'pedido/partials/card_pedido.html' %}
+</div>
+
+{% endfor %}
 
 {% endblock content %}
