@@ -16,11 +16,12 @@
 
 {% block content %}
 
-{% for pedido in pedidos %}
-<div class="pedido">
-    {% include 'pedido/partials/card_pedido.html' %}
-</div>
+<div class="container row row-cols-auto">
 
-{% endfor %}
+    {% for pedido in pedidos %}
+        {% include 'pedido/partials/card_pedido.html' %}
+    {% endfor %}
+
+</div>
 
 {% endblock content %}

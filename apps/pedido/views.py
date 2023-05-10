@@ -6,7 +6,7 @@ from .forms import CabecalhoPedidoForm, ItemPedidoFormSet
 
 from apps.cardapio.models import ItemCardapio
 
-from .models import Pedido
+from .models import Pedido, StatusPedido
 
 
 @login_required(login_url='usuarios:login', redirect_field_name='next')
@@ -29,7 +29,13 @@ def confirmar_pedido(request):
     # TODO: FIX THIS!
     if cabecalho_form.is_valid() and item_formset.is_valid():
         # Salva o objeto CabecalhoPedido
-        cabecalho = cabecalho_form.save()
+        cabecalho = cabecalho_form.save(commit=False)
+
+        status = StatusPedido.objects.get(pk=1)
+        status_pedido = cabecalho_form.cleaned_data['status'] = status
+        cabecalho.status = status_pedido
+
+        valor_total_pedido = 0  # Inicializa a variável com zero
 
         # Itera pelos objetos ItemPedido e atualiza o campo numero_pedido
         for item_form in item_formset:
@@ -41,8 +47,21 @@ def confirmar_pedido(request):
             valor_total_item = round(valor_unitario * quantidade, 2)
             item.valor_unitario = valor_unitario
             item.valor_total_item = valor_total_item
+
+            valor_total_pedido += valor_total_item
+
+
+        cabecalho.valor_total = valor_total_pedido
+        cabecalho.save()
+
+        for item_form in item_formset:
+            item = item_form.save(commit=False)
+            item.numero_pedido = cabecalho  # Atualiza o campo para referenciar o cabeçalho salvo
             item.save()
 
         messages.success(request, "Pedido adicionado com sucesso!")
+
+    else:
+        messages.error(request, "Erro, favor corrigir.")
 
     return redirect('pedido:home')
