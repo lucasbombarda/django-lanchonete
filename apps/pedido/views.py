@@ -1,7 +1,9 @@
 from django.shortcuts import render, redirect
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import login_required, permission_required
 from django.contrib import messages
 from django.forms import inlineformset_factory
+
+from datetime import datetime
 
 from .forms import CabecalhoPedidoForm, ItemPedidoFormSet, ItemPedidoForm, EditarStatusPedidoForm, FecharPedidoForm
 
@@ -12,7 +14,7 @@ from .models import Pedido, ItensPedido, StatusPedido
 
 @login_required(login_url='usuarios:login', redirect_field_name='next')
 def home_pedidos(request):
-    pedidos = Pedido.objects.all().order_by("criado_em")
+    pedidos = Pedido.objects.filter(status=1).order_by("criado_em")
     return render(request, 'pedido/pages/pedidos.html', context={"pedidos": pedidos})
 
 @login_required(login_url='usuarios:login', redirect_field_name='next')
@@ -75,6 +77,7 @@ def confirmar_pedido(request):
     return redirect('pedido:home')
 
 @login_required(login_url='usuarios:login', redirect_field_name='next')
+@permission_required('pedido.fechar_pedido', raise_exception=True)
 def imprimir_pedido(request, id):
     pedido = Pedido.objects.filter(pk=id).first()
     itens = ItensPedido.objects.filter(numero_pedido=id)
@@ -82,6 +85,7 @@ def imprimir_pedido(request, id):
     context = {'pedido': pedido, 'itens': itens}
     return render(request, 'pedido/pages/impressao.html', context=context)
 
+@login_required(login_url='usuarios:login', redirect_field_name='next')
 def editar_pedido(request, id):
     pedido = Pedido.objects.filter(pk=id).first()
 
@@ -125,6 +129,8 @@ def editar_pedido(request, id):
     context = {'cabecalho_form': cabecalho_form, 'itens_formset': itens_formset}
     return render(request, 'pedido/pages/editar_pedido.html', context=context)
 
+@login_required(login_url='usuarios:login', redirect_field_name='next')
+@permission_required('pedido.fechar_pedido', raise_exception=True)
 def editar_status(request, id):
     pedido = Pedido.objects.filter(pk=id).first()
     status_pedido_form = EditarStatusPedidoForm(data=request.POST or None, instance=pedido)
@@ -141,11 +147,51 @@ def editar_status(request, id):
 
     return render(request, 'pedido/pages/editar_status.html', context=context)
 
+@login_required(login_url='usuarios:login', redirect_field_name='next')
+@permission_required('pedido.fechar_pedido', raise_exception=True)
 def fechar_pedido(request, id):
     pedido = Pedido.objects.filter(pk=id).first()
     itens = ItensPedido.objects.filter(numero_pedido=id)
 
-    form_fechar_pedido = FecharPedidoForm()
+    form_fechar_pedido = FecharPedidoForm(request.POST or None, instance=pedido)
+    
+    if request.method == "POST":
+        if form_fechar_pedido.is_valid():
+            pedido.fechado_por = request.user
+
+            status = StatusPedido.objects.get(pk=2)
+            pedido.status = status
+
+            agora = datetime.now()
+            pedido.fechado_em = agora
+
+            form_fechar_pedido.save()
+            pedido.save()
+
+            messages.success(request, "Pedido fechado com sucesso!")
+            return redirect('pedido:home')
+        else:
+            messages.error(request, "ERRO!")
+    else:
+        form_fechar_pedido = FecharPedidoForm(instance=pedido)
 
     context = {'pedido': pedido, 'itens': itens, 'form_fechar_pedido': form_fechar_pedido}
     return render(request, 'pedido/pages/fechar_pedido.html', context=context)
+
+@login_required(login_url='usuarios:login', redirect_field_name='next')
+@permission_required('pedido.fechar_pedido', raise_exception=True)
+def listar_pedidos(request):
+
+    data_inicio = request.GET.get("data_inicio")
+    data_fim = request.GET.get("data_fim")
+    
+    if not data_inicio and not data_fim:
+        data_inicio = str(datetime.today().date()) + " 00:00"
+        data_fim = str(datetime.today().date()) + " 23:59"
+
+
+    pedidos = Pedido.objects.filter(criado_em__range=[data_inicio, data_fim])
+    itens = ItensPedido.objects.filter(numero_pedido__criado_em__range=[data_inicio, data_fim])
+
+    context = {"pedidos": pedidos, "itens": itens}
+    return render(request, 'pedido/pages/filtro_pedido.html', context=context)

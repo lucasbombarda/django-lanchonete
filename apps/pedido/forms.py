@@ -1,4 +1,5 @@
 from django import forms
+from django.core.exceptions import PermissionDenied
 from .models import Pedido, ItensPedido, FormaPagamento, StatusPedido
 from django.forms import inlineformset_factory
 
@@ -112,5 +113,12 @@ class FecharPedidoForm(forms.ModelForm):
                 'required': 'required',
             }),
         }
+
+        def clean(self):
+            cleaned_data = super().clean()
+            user = self.request.user
+            if not user.has_perm("pedido.fechar_pedido"):
+                raise PermissionDenied("Você não tem permissão para fechar pedidos.")
+            return cleaned_data
 
 ItemPedidoFormSet = inlineformset_factory(Pedido, ItensPedido, form=ItemPedidoForm, extra=1, can_delete=True)

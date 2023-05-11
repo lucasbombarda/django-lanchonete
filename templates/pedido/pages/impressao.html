@@ -8,6 +8,14 @@
     </head>
     <body>
         <style>
+            .container {
+                font-family: 'Courier New', Courier, monospace;
+            }
+            .footer {
+                font-family: Arial, Helvetica, sans-serif;
+                font-size: 12px;
+                padding-top: 5px;
+            }
             .center {
                 display: grid;
                 place-items: center;
@@ -18,23 +26,79 @@
                 padding-top: 5px;
                 padding-bottom: 5px;
             }
+
+            .table-items {
+                width: 100%;
+                text-align: center;
+            }
+
+            .datas-pedido, .subtotal {
+                display: flex;
+                justify-content: space-between;
+            }
         </style>
 
         <div class="container cupom-nao-fiscal">
             <div class="titulo center">
                 <h3>BIG BROTHER LANCHES</h3>
+                
             </div>
-            <div class="center dotted">PEDIDO: {{ pedido.pk }}</div>
+            <span>Rua Manoel Ribas, 85 - Praça Moacir Barreira</span><br>
+            <span>WhatsApp: (14) 98173-2003</span><br>
+            <span>Telefone: (14) 3541-4465</span><br>
+            <div class="center dotted">PEDIDO N° {{ pedido.pk }}</div>
             
-            <p>DATA E HORA: {{ pedido.criado_em }}</p>
-            <p>TOTAL: {{ pedido.valor_total|floatformat:"2" }}</p>
+            <div class="datas-pedido">
+            <h4>ABERTURA: {{ pedido.criado_em|date:"d/m/Y" }} {{ pedido.criado_em|time:"H:i" }}</h4>
+
+            <h4>FECHAMENTO: {% if pedido.fechado_em %} {{ pedido.fechado_em|date:"d/m/Y" }} {{ pedido.fechado_em|time:"H:i" }} {% else %} PEDIDO NÃO FECHADO {% endif %}</h4>
+            </div>
             
-    
-            {% for item in itens %}
-            <p>ITEM: {{ item.item }}</p>
-            <p>QTDE: {{ item.quantidade }}</p>
-            <p>VL: {{ item.valor_total_item|floatformat:"2" }}</p>
-            {% endfor %}
+
+            <div class="center dotted">ITENS</div>
+            
+                <table class="table-items">
+                    <thead>
+                        <tr>
+                            <th>Produto</th>
+                            <th>Qtde</th>
+                            <th>Unit.</th>
+                            <th>Total</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    {% for item in itens %}
+                    <tr>
+                        <td>{{ item.item }}</td>
+                        <td>{{ item.quantidade }}</td>
+                        <td>{{ item.valor_unitario|floatformat:"2" }}</td>
+                        <td>{{ item.valor_total_item|floatformat:"2" }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            
+            <div class="center dotted">SUBTOTAL</div>
+
+            <div class="subtotal">
+                <h4>TOTAL: </h4>
+                <h4>R$ {{ pedido.valor_total|floatformat:"2" }}</h4>
+            </div>
+
+            <div class="center dotted">
+                <div class="center">
+                    **** NÃO É VÁLIDO COMO CUPOM FISCAL ****
+                </div>
+                <br>
+                <div class="center">
+                    Obrigado e volte sempre!
+                </div>
+            
+        </div>
+
+
+        <div class="footer center">
+            Developer: Lucas Bombarda - lucasbombardati@gmail.com
         </div>
        
     </body>

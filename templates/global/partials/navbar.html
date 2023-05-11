@@ -11,7 +11,8 @@
           <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown" aria-expanded="false">Pedido</a>
             <ul class="dropdown-menu">
-              <li><a class="dropdown-item" href="{% url 'pedido:home' %}">Listar pedidos</a></li>
+              <li><a class="dropdown-item" href="{% url 'pedido:home' %}">Listar pedidos pendentes</a></li>
+              <li><a class="dropdown-item" href="{% url 'pedido:listar_pedido' %}">Listar pedidos</a></li>
               <li><a class="dropdown-item" href="{% url 'pedido:novo_pedido' %}">Incluir pedido</a></li> 
             </ul>
           </li>

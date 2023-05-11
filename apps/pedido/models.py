@@ -32,6 +32,12 @@ class Pedido(models.Model):
     forma_pagamento = models.ForeignKey(FormaPagamento, on_delete=models.SET_NULL, null=True, blank=True, default="")
     status = models.ForeignKey(StatusPedido, on_delete=models.PROTECT, null=False, blank=False)
     usuario = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True, default="")
+    fechado_por = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True, default="", related_name='fechado_por')
+
+    class Meta:
+        permissions = [
+            ("fechar_pedido", "Pode fechar pedidos"),
+        ]
 
 class ItensPedido(models.Model):
     numero_pedido = models.ForeignKey(Pedido, on_delete=models.PROTECT, null=False, blank=False, related_name='itens')
