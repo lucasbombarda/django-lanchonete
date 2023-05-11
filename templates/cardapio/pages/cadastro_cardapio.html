@@ -11,7 +11,7 @@
 {% block content %}
 {% include 'global/partials/message.html' %}
 
-<h1 class='text-center'>Cadastro de Item de cardápio</h1>
+<h2 class='text-center'>Cadastro de Item de cardápio</h2>
 
 <form action="{% url 'cardapio:cardapio_criar' %}" method="post" enctype="multipart/form-data">
     {% csrf_token %}

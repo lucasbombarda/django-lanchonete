@@ -9,9 +9,10 @@
     box-shadow: 1px 0px 35px -18px rgba(0,0,0,0.83);
 }
 
-.campo-formulario .errorlist {
+.errorlist {
     list-style: none;
     color: red;
+    display: flex;
 }
 
 .alert{
@@ -31,3 +32,4 @@
     font-size: 12px;
     color: gray;
 }
+

@@ -1,8 +1,8 @@
 {% extends 'global/pages/base.html' %}
 
-{% block title %}Edição de item{% endblock title %}
+{% block title %}Edição de status{% endblock title %}
 
-{% block header %}{% include 'cardapio/partials/header.html' %}{% endblock header %}
+{% block header %}{% include 'pedido/partials/header.html' %}{% endblock header %}
 
 {% block navbar %}
 {% include 'global/partials/navbar.html' %}
@@ -11,7 +11,7 @@
 {% block content %}
 {% include 'global/partials/message.html' %}
 
-<h2 class='text-center'>Editar item de cardápio</h2>
+<h2 class='text-center'>Editar status do pedido</h2>
 
 <form method="post" enctype="multipart/form-data">
     {% csrf_token %}
@@ -31,7 +31,7 @@
     {% endfor %}
         <div class="buttons-login-form pb-2">
             <button type="submit" class="btn btn-primary">Editar</button>
-            <a href="{% url 'cardapio:selecionar_item_edicao' %}"><button type="button" class="btn btn-danger">Voltar</button></a>
+            <a href="{% url 'pedido:home' %}"><button type="button" class="btn btn-danger">Voltar</button></a>
         </div>
 
 </form>

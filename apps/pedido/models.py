@@ -4,7 +4,7 @@ from apps.cardapio.models import ItemCardapio
 
 # Create your models here.
 class FormaPagamento(models.Model):
-    situacao = models.BooleanField(default=False)
+    situacao = models.BooleanField(default=True)
     descricao = models.CharField(max_length=255)
     criado_em = models.DateTimeField(auto_now_add=True)
     atualizado_em = models.DateTimeField(auto_now=True)
@@ -13,7 +13,7 @@ class FormaPagamento(models.Model):
         return self.descricao
 
 class StatusPedido(models.Model):
-    situacao = models.BooleanField(default=False)
+    situacao = models.BooleanField(default=True)
     descricao = models.CharField(max_length=255)
     criado_em = models.DateTimeField(auto_now_add=True)
     atualizado_em = models.DateTimeField(auto_now=True)
@@ -27,15 +27,15 @@ class Pedido(models.Model):
 
     criado_em = models.DateTimeField(auto_now_add=True)
     atualizado_em = models.DateTimeField(auto_now=True)
+    fechado_em = models.DateTimeField(null=True, blank=True)
 
     forma_pagamento = models.ForeignKey(FormaPagamento, on_delete=models.SET_NULL, null=True, blank=True, default="")
-    status = models.ForeignKey(StatusPedido, on_delete=models.SET_NULL, null=True, blank=True, default="")
+    status = models.ForeignKey(StatusPedido, on_delete=models.PROTECT, null=False, blank=False)
     usuario = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True, default="")
 
-
 class ItensPedido(models.Model):
-    numero_pedido = models.ForeignKey(Pedido, on_delete=models.SET_NULL, null=True, blank=True, default="", related_name='itens')
-    item = models.ForeignKey(ItemCardapio, on_delete=models.SET_NULL, null=True, blank=True, default="")
+    numero_pedido = models.ForeignKey(Pedido, on_delete=models.PROTECT, null=False, blank=False, related_name='itens')
+    item = models.ForeignKey(ItemCardapio, on_delete=models.PROTECT, null=False, blank=False)
     observacao = models.CharField(max_length=100, null=True, blank=True)
 
     quantidade = models.IntegerField(null=False, blank=False, default=0)

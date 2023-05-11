@@ -22,8 +22,20 @@
             <li class="list-group-item">Total: R$ {{ pedido.valor_total|floatformat:"2" }}</li>
           </ul>
         <div class="card-footer d-flex justify-content-between">
-            <a href="#" class="btn btn-primary">Editar itens</a>
-            <a href="#" class="btn btn-primary">Fechar pedido</a>
+            <p>
+                <button class="btn btn-info" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-{{ pedido.pk }}" aria-expanded="false" aria-controls="collapse-order">
+                  Ações
+                </button>
+              </p>
+              <div class="collapse" id="collapse-{{ pedido.pk }}">
+                <div class="card card-body">
+                    <a href="{% url 'pedido:editar_pedido' pedido.pk %}" class="btn btn-secondary m-1" role="button">Editar itens</a>
+                    <a href="{% url 'pedido:editar_status' pedido.pk %}" class="btn btn-secondary m-1" role="button">Editar status</a>
+                    <a href="{% url 'pedido:imprimir' pedido.pk %}" class="btn btn-secondary m-1" role="button" target="_blank">Imprimir</a>
+                    <a href="{% url 'pedido:fechar_pedido' pedido.pk %}" class="btn btn-secondary m-1" role="button">Fechar pedido</a>
+                </div>
+              </div>
+            
         </div>
     </div>
 </div>

@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Impressão</title>
+    </head>
+    <body>
+        <style>
+            .center {
+                display: grid;
+                place-items: center;
+            }
+
+            .dotted {
+                border-style: dotted none dotted none;
+                padding-top: 5px;
+                padding-bottom: 5px;
+            }
+        </style>
+
+        <div class="container cupom-nao-fiscal">
+            <div class="titulo center">
+                <h3>BIG BROTHER LANCHES</h3>
+            </div>
+            <div class="center dotted">PEDIDO: {{ pedido.pk }}</div>
+            
+            <p>DATA E HORA: {{ pedido.criado_em }}</p>
+            <p>TOTAL: {{ pedido.valor_total|floatformat:"2" }}</p>
+            
+    
+            {% for item in itens %}
+            <p>ITEM: {{ item.item }}</p>
+            <p>QTDE: {{ item.quantidade }}</p>
+            <p>VL: {{ item.valor_total_item|floatformat:"2" }}</p>
+            {% endfor %}
+        </div>
+       
+    </body>
+</html>
