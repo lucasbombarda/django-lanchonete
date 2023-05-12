@@ -86,14 +86,23 @@ def imprimir_pedido(request, id):
     return render(request, 'pedido/pages/impressao.html', context=context)
 
 @login_required(login_url='usuarios:login', redirect_field_name='next')
+@permission_required('pedido.fechar_pedido', raise_exception=True)
+def imprimir_cozinha(request, id):
+    pedido = Pedido.objects.filter(pk=id).first()
+    itens = ItensPedido.objects.filter(numero_pedido=id)
+
+    context = {'pedido': pedido, 'itens': itens}
+    return render(request, 'pedido/pages/impressao_cozinha.html', context=context)
+
+@login_required(login_url='usuarios:login', redirect_field_name='next')
 def editar_pedido(request, id):
     pedido = Pedido.objects.filter(pk=id).first()
 
     item_pedido_formset = inlineformset_factory(Pedido, ItensPedido, form=ItemPedidoForm, extra=0, can_delete=True)
     cabecalho_form = CabecalhoPedidoForm(data=request.POST or None, instance=pedido)
     itens_formset = item_pedido_formset(data=request.POST or None, instance=pedido, prefix='itens_pedido')
-
     if request.method == "POST":
+
         if cabecalho_form.is_valid() and itens_formset.is_valid():
             cabecalho = cabecalho_form.save(commit=False)
 

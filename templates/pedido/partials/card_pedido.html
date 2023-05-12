@@ -31,7 +31,7 @@
                 <div class="card card-body">
                     <a href="{% url 'pedido:editar_pedido' pedido.pk %}" class="btn btn-secondary m-1" role="button">Editar itens</a>
                     <a href="{% url 'pedido:editar_status' pedido.pk %}" class="btn btn-secondary m-1" role="button">Editar status</a>
-                    <a href="{% url 'pedido:imprimir' pedido.pk %}" class="btn btn-secondary m-1" role="button" target="_blank">Imprimir</a>
+                    <a href="{% url 'pedido:imprimir_cozinha' pedido.pk %}" class="btn btn-secondary m-1" role="button" target="_blank">Imprimir</a>
                     <a href="{% url 'pedido:fechar_pedido' pedido.pk %}" class="btn btn-secondary m-1" role="button">Fechar pedido</a>
                 </div>
               </div>

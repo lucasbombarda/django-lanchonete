@@ -4,7 +4,7 @@
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Impressão</title>
+        <title>Comanda cozinha</title>
     </head>
     <body>
         <style>
@@ -42,19 +42,12 @@
         <div class="container cupom-nao-fiscal">
             <div class="titulo center">
                 <h3>BIG BROTHER LANCHES</h3>
-                
-            </div>
-            <span>Rua Manoel Ribas, 85 - Praça Moacir Barreira - Promissão/SP</span><br>
-            <span>WhatsApp: (14) 98173-2003</span><br>
-            <span>Telefone: (14) 3541-4465</span><br>
-            <div class="center dotted">PEDIDO N° {{ pedido.pk }}</div>
-            
-            <div class="datas-pedido">
-            <h4>ABERTURA: {{ pedido.criado_em|date:"d/m/Y" }} {{ pedido.criado_em|time:"H:i" }}</h4>
-
-            <h4>FECHAMENTO: {% if pedido.fechado_em %} {{ pedido.fechado_em|date:"d/m/Y" }} {{ pedido.fechado_em|time:"H:i" }} {% else %} PEDIDO NÃO FECHADO {% endif %}</h4>
             </div>
             
+            <div class="center dotted">PEDIDO N° {{ pedido.pk }} - MESA: {{ pedido.numero_mesa }}</div>
+            
+            <h4 class="center">COMANDA COZINHA</h4>
+            <h4 class="center">HORA: {{ pedido.criado_em|date:"d/m/Y" }} {{ pedido.criado_em|time:"H:i" }}</h4>
 
             <div class="center dotted">ITENS</div>
             
@@ -63,8 +56,7 @@
                         <tr>
                             <th>Produto</th>
                             <th>Qtde</th>
-                            <th>Unit.</th>
-                            <th>Total</th>
+                            <th>OBS</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -72,36 +64,18 @@
                     <tr>
                         <td>{{ item.item }}</td>
                         <td>{{ item.quantidade }}</td>
-                        <td>{{ item.valor_unitario|floatformat:"2" }}</td>
-                        <td>{{ item.valor_total_item|floatformat:"2" }}</td>
+                        <td>{% if item.observacao %}{{ item.observacao }} {% else %} - {% endif %}</td>
                     </tr>
                     {% endfor %}
                 </tbody>
             </table>
-            
-            <div class="center dotted">SUBTOTAL</div>
+             
 
-            <div class="subtotal">
-                <h4>TOTAL: </h4>
-                <h4>R$ {{ pedido.valor_total|floatformat:"2" }}</h4>
+
+            <div class="footer center dotted">
+                <span>Developer: Lucas Bombarda</span>
+                <span>lucasbombardati@gmail.com</span>
             </div>
-
-            <div class="center dotted">
-                <div class="center">
-                    * NÃO É VÁLIDO COMO CUPOM FISCAL *
-                </div>
-                <br>
-                <div class="center">
-                    Obrigado e volte sempre!
-                </div>
-            
-        </div>
-
-
-        <div class="footer center">
-            <span>Developer: Lucas Bombarda</span>
-            <span>lucasbombardati@gmail.com</span>
-        </div>
        
     </body>
 </html>
