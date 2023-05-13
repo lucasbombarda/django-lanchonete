@@ -25,16 +25,14 @@ def novo_pedido(request):
 
 @login_required(login_url='usuarios:login', redirect_field_name='next')
 def confirmar_pedido(request):
-    cabecalho_form = CabecalhoPedidoForm(request.POST, prefix='cabecalho_pedido')
-    item_formset = ItemPedidoFormSet(request.POST, prefix='itens_pedido')
+    cabecalho_form = CabecalhoPedidoForm(request.POST or None, prefix='cabecalho_pedido')
+    item_formset = ItemPedidoFormSet(request.POST or None, prefix='itens_pedido')
 
-    if not item_formset.is_valid() or all([not form.cleaned_data for form in item_formset.forms]):
-        messages.error(request, "Erro, favor preencher pelo menos um item.")
-        return redirect('pedido:novo_pedido')
-
-    # TODO: FIX THIS!
-    if cabecalho_form.is_valid() and item_formset.is_valid():
-        # Salva o objeto CabecalhoPedido
+    if not item_formset.is_valid():
+        item_formset.forms = [form for form in item_formset.forms if form.is_valid()]
+    
+    if cabecalho_form.is_valid() and item_formset.is_valid() and len(item_formset.forms) > 0:
+        
         cabecalho = cabecalho_form.save(commit=False)
 
         status = StatusPedido.objects.get(pk=1)
@@ -59,7 +57,6 @@ def confirmar_pedido(request):
 
             valor_total_pedido += valor_total_item
 
-
         cabecalho.valor_total = valor_total_pedido
         cabecalho.save()
 
@@ -71,7 +68,13 @@ def confirmar_pedido(request):
         messages.success(request, "Pedido adicionado com sucesso!")
 
     else:
-        messages.error(request, "Erro, favor corrigir.")
+        for form in item_formset:
+            if form.errors:
+                for field, errors in form.errors.items():
+                    for error in errors:
+                        messages.error(request, f"Erro no campo {field}: {error}")
+            
+        messages.error(request, f"Insira pelo menos um item!")
         return redirect('pedido:novo_pedido')
 
     return redirect('pedido:home')
@@ -103,37 +106,44 @@ def editar_pedido(request, id):
     itens_formset = item_pedido_formset(data=request.POST or None, instance=pedido, prefix='itens_pedido')
     if request.method == "POST":
 
+        itens_formset.forms = [form for form in itens_formset.forms if form.is_valid()]
+
         if cabecalho_form.is_valid() and itens_formset.is_valid():
+
             cabecalho = cabecalho_form.save(commit=False)
 
             valor_total_pedido = 0  # Inicializa a variável com zero
 
-            # Itera pelos objetos ItemPedido e atualiza o campo numero_pedido
+            itens_salvos = []
+            
             for item_form in itens_formset:
-                item = item_form.save(commit=False)
-                item.numero_pedido = cabecalho
-                id_item = item_form.cleaned_data['item'].id
-                valor_unitario = ItemCardapio.objects.get(pk=id_item).preco_unitario
-                quantidade = item_form.cleaned_data['quantidade']
-                valor_total_item = round(valor_unitario * quantidade, 2)
-                item.valor_unitario = valor_unitario
-                item.valor_total_item = valor_total_item
-
-                valor_total_pedido += valor_total_item
-
+                if not item_form.cleaned_data.get('DELETE', False):
+                    item = item_form.save(commit=False)
+                    item.numero_pedido = cabecalho
+                    id_item = item_form.cleaned_data['item'].id
+                    valor_unitario = ItemCardapio.objects.get(pk=id_item).preco_unitario
+                    quantidade = item_form.cleaned_data['quantidade']
+                    valor_total_item = round(valor_unitario * quantidade, 2)
+                    item.valor_unitario = valor_unitario
+                    item.valor_total_item = valor_total_item
+                    valor_total_pedido += valor_total_item
+                    itens_salvos.append(item)
+                else:
+                    item_form.instance.delete()
+                
             cabecalho.valor_total = valor_total_pedido
             cabecalho.save()
-
-            for item_form in itens_formset:
-                item = item_form.save(commit=False)
-                item.numero_pedido = cabecalho  # Atualiza o campo para referenciar o cabeçalho salvo
+            
+            for item in itens_salvos:
+                item.numero_pedido = cabecalho
                 item.save()
 
             messages.success(request, f"Pedido {pedido.pk} atualizado com sucesso!")
             
             return redirect('pedido:home')
+            
         else:
-            messages.error(request, "Erro, favor corrigir.")
+            messages.error(request, f"Erro, favor corrigir.")
 
     context = {'cabecalho_form': cabecalho_form, 'itens_formset': itens_formset}
     return render(request, 'pedido/pages/editar_pedido.html', context=context)
@@ -163,6 +173,7 @@ def fechar_pedido(request, id):
     itens = ItensPedido.objects.filter(numero_pedido=id)
 
     form_fechar_pedido = FecharPedidoForm(request.POST or None, instance=pedido)
+    
     
     if request.method == "POST":
         if form_fechar_pedido.is_valid():

@@ -45,13 +45,13 @@
 {% endblock content %}
 
 {% block js %}
+<script src="{% static 'js/script.js' %}"></script>
 
 <script>
     $(document).ready(function () {
         $.Admin.formset.init();
     });
 </script>
-<script src="{% static 'js/script.js' %}"></script>
 
 
 {% endblock js %}

@@ -23,6 +23,7 @@ class CabecalhoPedidoForm(forms.ModelForm):
                     'class': 'form-control',
                 }),
         }
+
     def clean_numero_mesa(self):
         numero_mesa = self.cleaned_data['numero_mesa']
         if numero_mesa < 0:
@@ -57,6 +58,7 @@ class ItemPedidoForm(forms.ModelForm):
             'quantidade': forms.NumberInput(
                 attrs={
                     'class': 'form-control',
+                    'required': 'required',
                 }),
             'observacao': forms.TextInput(
                 attrs={
@@ -66,6 +68,8 @@ class ItemPedidoForm(forms.ModelForm):
     
     def clean_quantidade(self):
         quantidade = self.cleaned_data['quantidade']
+        if quantidade is None:
+            raise forms.ValidationError('A quantidade não pode ser vazia.')
         if quantidade <= 0:
             raise forms.ValidationError('A quantidade deve ser maior do que zero.')
         return quantidade
