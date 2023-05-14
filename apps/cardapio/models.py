@@ -21,4 +21,4 @@ class ItemCardapio(models.Model):
     tipo = models.ForeignKey(TipoItem, on_delete=models.SET_NULL, null=True, blank=True, default='')
 
     def __str__(self) -> str:
-        return self.nome
+        return f'{self.nome} ({self.numero})'

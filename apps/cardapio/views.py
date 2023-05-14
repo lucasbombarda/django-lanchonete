@@ -65,7 +65,7 @@ def criar_tipo_item(request):
 
 @login_required(login_url='usuarios:login', redirect_field_name='next')
 def listar_todos_itens_cardapio_para_editar(request):
-    itenscardapio = ItemCardapio.objects.all().order_by('id')
+    itenscardapio = ItemCardapio.objects.all().order_by('numero')
     return render(request, 'cardapio/pages/editar_item_cardapio.html', context={"itenscardapio": itenscardapio})
 
 @login_required(login_url='usuarios:login', redirect_field_name='next')

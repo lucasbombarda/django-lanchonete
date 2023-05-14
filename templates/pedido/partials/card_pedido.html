@@ -2,8 +2,8 @@
 <div class="col mx-auto p-2">
     <div class="card cartao-pedido" style="width: 18rem;">
         <div class="card-header d-flex justify-content-between">
-            <h5>Mesa: {{ pedido.numero_mesa }}</h5>
-            <h5>Pedido: {{ pedido.pk }}</h5>
+            <h5 style="color: red;">Mesa: {{ pedido.numero_mesa }}</h5>
+            <h5 style="color:green;">Pedido: {{ pedido.pk }}</h5>
         </div>
         <div class="card-body">
             {% if pedido.status %}<p class="card-title">Status: {{ pedido.status }} </p>{% endif %}

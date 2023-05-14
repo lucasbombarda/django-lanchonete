@@ -34,7 +34,7 @@ class ItemPedidoForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        itens_ativos = ItemCardapio.objects.filter(ativo=True)
+        itens_ativos = ItemCardapio.objects.filter(ativo=True).order_by("numero")
         self.fields['item'].queryset = itens_ativos
     
     class Meta:
