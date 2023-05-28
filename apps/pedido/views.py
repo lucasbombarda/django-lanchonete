@@ -1,7 +1,3 @@
-<<<<<<< HEAD
-=======
-
->>>>>>> servidor/master
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required, permission_required
 from django.contrib import messages
@@ -9,12 +5,8 @@ from django.forms import inlineformset_factory
 
 from datetime import datetime
 
-<<<<<<< HEAD
-from .forms import CabecalhoPedidoForm, ItemPedidoFormSet, ItemPedidoForm, EditarStatusPedidoForm, FecharPedidoForm
-=======
 from .forms import CabecalhoPedidoForm, ItemPedidoFormSet, ItemPedidoForm, \
     EditarStatusPedidoForm, FecharPedidoForm
->>>>>>> servidor/master
 
 from apps.cardapio.models import ItemCardapio
 
@@ -24,9 +16,6 @@ from .models import Pedido, ItensPedido, StatusPedido
 @login_required(login_url='usuarios:login', redirect_field_name='next')
 def home_pedidos(request):
     pedidos = Pedido.objects.filter(status=1).order_by("criado_em")
-<<<<<<< HEAD
-    return render(request, 'pedido/pages/pedidos.html', context={"pedidos": pedidos})
-=======
     return render(request, 'pedido/pages/pedidos.html',
                   context={"pedidos": pedidos})
 
@@ -49,26 +38,11 @@ def buscar_pedidos(request):
     return render(request, 'pedido/pages/procurar.html',
                   context={"pedidos": pedidos})
 
->>>>>>> servidor/master
 
 @login_required(login_url='usuarios:login', redirect_field_name='next')
 def novo_pedido(request):
     form = CabecalhoPedidoForm(prefix='cabecalho_pedido')
     formset = ItemPedidoFormSet(prefix='itens_pedido')
-<<<<<<< HEAD
-    return render(request, 'pedido/pages/novo_pedido.html', context={"form": form, "formset": formset})
-
-@login_required(login_url='usuarios:login', redirect_field_name='next')
-def confirmar_pedido(request):
-    cabecalho_form = CabecalhoPedidoForm(request.POST or None, prefix='cabecalho_pedido')
-    item_formset = ItemPedidoFormSet(request.POST or None, prefix='itens_pedido')
-
-    if not item_formset.is_valid():
-        item_formset.forms = [form for form in item_formset.forms if form.is_valid()]
-    
-    if cabecalho_form.is_valid() and item_formset.is_valid() and len(item_formset.forms) > 0:
-        
-=======
     return render(request, 'pedido/pages/novo_pedido.html',
                   context={"form": form, "formset": formset})
 
@@ -86,7 +60,6 @@ def confirmar_pedido(request):
 
     if cabecalho_form.is_valid() and item_formset.is_valid() and len(item_formset.forms) > 0:  # noqa
 
->>>>>>> servidor/master
         cabecalho = cabecalho_form.save(commit=False)
 
         status = StatusPedido.objects.get(pk=1)
@@ -103,12 +76,8 @@ def confirmar_pedido(request):
             item = item_form.save(commit=False)
             item.numero_pedido = cabecalho
             id_item = item_form.cleaned_data['item'].id
-<<<<<<< HEAD
-            valor_unitario = ItemCardapio.objects.get(pk=id_item).preco_unitario
-=======
             valor_unitario = ItemCardapio.objects.get(
                 pk=id_item).preco_unitario
->>>>>>> servidor/master
             quantidade = item_form.cleaned_data['quantidade']
             valor_total_item = round(valor_unitario * quantidade, 2)
             item.valor_unitario = valor_unitario
@@ -121,12 +90,8 @@ def confirmar_pedido(request):
 
         for item_form in item_formset:
             item = item_form.save(commit=False)
-<<<<<<< HEAD
-            item.numero_pedido = cabecalho  # Atualiza o campo para referenciar o cabeçalho salvo
-=======
             # Atualiza o campo para referenciar o cabeçalho salvo
             item.numero_pedido = cabecalho
->>>>>>> servidor/master
             item.save()
 
         messages.success(request, "Pedido adicionado com sucesso!")
@@ -136,24 +101,15 @@ def confirmar_pedido(request):
             if form.errors:
                 for field, errors in form.errors.items():
                     for error in errors:
-<<<<<<< HEAD
-                        messages.error(request, f"Erro no campo {field}: {error}")
-            
-        messages.error(request, f"Insira pelo menos um item!")
-=======
                         messages.error(
                             request, f"Erro no campo {field}: {error}")
 
         messages.error(request, "Insira pelo menos um item!")
->>>>>>> servidor/master
         return redirect('pedido:novo_pedido')
 
     return redirect('pedido:home')
 
-<<<<<<< HEAD
-=======
 
->>>>>>> servidor/master
 @login_required(login_url='usuarios:login', redirect_field_name='next')
 @permission_required('pedido.fechar_pedido', raise_exception=True)
 def imprimir_pedido(request, id):
@@ -163,10 +119,7 @@ def imprimir_pedido(request, id):
     context = {'pedido': pedido, 'itens': itens}
     return render(request, 'pedido/pages/impressao.html', context=context)
 
-<<<<<<< HEAD
-=======
 
->>>>>>> servidor/master
 @login_required(login_url='usuarios:login', redirect_field_name='next')
 @permission_required('pedido.fechar_pedido', raise_exception=True)
 def imprimir_cozinha(request, id):
@@ -174,26 +127,14 @@ def imprimir_cozinha(request, id):
     itens = ItensPedido.objects.filter(numero_pedido=id)
 
     context = {'pedido': pedido, 'itens': itens}
-<<<<<<< HEAD
-    return render(request, 'pedido/pages/impressao_cozinha.html', context=context)
-=======
     return render(request, 'pedido/pages/impressao_cozinha.html',
                   context=context)
 
->>>>>>> servidor/master
 
 @login_required(login_url='usuarios:login', redirect_field_name='next')
 def editar_pedido(request, id):
     pedido = Pedido.objects.filter(pk=id).first()
 
-<<<<<<< HEAD
-    item_pedido_formset = inlineformset_factory(Pedido, ItensPedido, form=ItemPedidoForm, extra=0, can_delete=True)
-    cabecalho_form = CabecalhoPedidoForm(data=request.POST or None, instance=pedido)
-    itens_formset = item_pedido_formset(data=request.POST or None, instance=pedido, prefix='itens_pedido')
-    if request.method == "POST":
-
-        itens_formset.forms = [form for form in itens_formset.forms if form.is_valid()]
-=======
     item_pedido_formset = inlineformset_factory(
         Pedido, ItensPedido, form=ItemPedidoForm, extra=0, can_delete=True)
     cabecalho_form = CabecalhoPedidoForm(
@@ -204,7 +145,6 @@ def editar_pedido(request, id):
 
         itens_formset.forms = [
             form for form in itens_formset.forms if form.is_valid()]
->>>>>>> servidor/master
 
         if cabecalho_form.is_valid() and itens_formset.is_valid():
 
@@ -213,22 +153,13 @@ def editar_pedido(request, id):
             valor_total_pedido = 0  # Inicializa a variável com zero
 
             itens_salvos = []
-<<<<<<< HEAD
-            
-=======
-
->>>>>>> servidor/master
             for item_form in itens_formset:
                 if not item_form.cleaned_data.get('DELETE', False):
                     item = item_form.save(commit=False)
                     item.numero_pedido = cabecalho
                     id_item = item_form.cleaned_data['item'].id
-<<<<<<< HEAD
-                    valor_unitario = ItemCardapio.objects.get(pk=id_item).preco_unitario
-=======
                     valor_unitario = ItemCardapio.objects.get(
                         pk=id_item).preco_unitario
->>>>>>> servidor/master
                     quantidade = item_form.cleaned_data['quantidade']
                     valor_total_item = round(valor_unitario * quantidade, 2)
                     item.valor_unitario = valor_unitario
@@ -237,33 +168,14 @@ def editar_pedido(request, id):
                     itens_salvos.append(item)
                 else:
                     item_form.instance.delete()
-<<<<<<< HEAD
-                
-            cabecalho.valor_total = valor_total_pedido
-            cabecalho.save()
-            
-=======
 
             cabecalho.valor_total = valor_total_pedido
             cabecalho.save()
 
->>>>>>> servidor/master
             for item in itens_salvos:
                 item.numero_pedido = cabecalho
                 item.save()
 
-<<<<<<< HEAD
-            messages.success(request, f"Pedido {pedido.pk} atualizado com sucesso!")
-            
-            return redirect('pedido:home')
-            
-        else:
-            messages.error(request, f"Erro, favor corrigir.")
-
-    context = {'cabecalho_form': cabecalho_form, 'itens_formset': itens_formset}
-    return render(request, 'pedido/pages/editar_pedido.html', context=context)
-
-=======
             messages.success(
                 request, f"Pedido {pedido.pk} atualizado com sucesso!")
 
@@ -277,17 +189,12 @@ def editar_pedido(request, id):
     return render(request, 'pedido/pages/editar_pedido.html', context=context)
 
 
->>>>>>> servidor/master
 @login_required(login_url='usuarios:login', redirect_field_name='next')
 @permission_required('pedido.fechar_pedido', raise_exception=True)
 def editar_status(request, id):
     pedido = Pedido.objects.filter(pk=id).first()
-<<<<<<< HEAD
-    status_pedido_form = EditarStatusPedidoForm(data=request.POST or None, instance=pedido)
-=======
     status_pedido_form = EditarStatusPedidoForm(
         data=request.POST or None, instance=pedido)
->>>>>>> servidor/master
 
     if request.method == "POST":
         if status_pedido_form.is_valid():
@@ -301,25 +208,16 @@ def editar_status(request, id):
 
     return render(request, 'pedido/pages/editar_status.html', context=context)
 
-<<<<<<< HEAD
-=======
 
->>>>>>> servidor/master
 @login_required(login_url='usuarios:login', redirect_field_name='next')
 @permission_required('pedido.fechar_pedido', raise_exception=True)
 def fechar_pedido(request, id):
     pedido = Pedido.objects.filter(pk=id).first()
     itens = ItensPedido.objects.filter(numero_pedido=id)
 
-<<<<<<< HEAD
-    form_fechar_pedido = FecharPedidoForm(request.POST or None, instance=pedido)
-    
-    
-=======
     form_fechar_pedido = FecharPedidoForm(
         request.POST or None, instance=pedido)
 
->>>>>>> servidor/master
     if request.method == "POST":
         if form_fechar_pedido.is_valid():
             pedido.fechado_por = request.user
@@ -340,44 +238,24 @@ def fechar_pedido(request, id):
     else:
         form_fechar_pedido = FecharPedidoForm(instance=pedido)
 
-<<<<<<< HEAD
-    context = {'pedido': pedido, 'itens': itens, 'form_fechar_pedido': form_fechar_pedido}
-    return render(request, 'pedido/pages/fechar_pedido.html', context=context)
-
-=======
     context = {'pedido': pedido, 'itens': itens,
                'form_fechar_pedido': form_fechar_pedido}
     return render(request, 'pedido/pages/fechar_pedido.html', context=context)
 
 
->>>>>>> servidor/master
 @login_required(login_url='usuarios:login', redirect_field_name='next')
 @permission_required('pedido.fechar_pedido', raise_exception=True)
 def listar_pedidos(request):
 
     data_inicio = request.GET.get("data_inicio")
     data_fim = request.GET.get("data_fim")
-<<<<<<< HEAD
-    
-=======
-
->>>>>>> servidor/master
     if not data_inicio and not data_fim:
         data_inicio = str(datetime.today().date()) + " 00:00"
         data_fim = str(datetime.today().date()) + " 23:59"
 
-<<<<<<< HEAD
-
-    pedidos = Pedido.objects.filter(criado_em__range=[data_inicio, data_fim])
-    itens = ItensPedido.objects.filter(numero_pedido__criado_em__range=[data_inicio, data_fim])
-
-    context = {"pedidos": pedidos, "itens": itens}
-    return render(request, 'pedido/pages/filtro_pedido.html', context=context)
-=======
     pedidos = Pedido.objects.filter(criado_em__range=[data_inicio, data_fim])
     itens = ItensPedido.objects.filter(
         numero_pedido__criado_em__range=[data_inicio, data_fim])
 
     context = {"pedidos": pedidos, "itens": itens}
     return render(request, 'pedido/pages/filtro_pedido.html', context=context)
->>>>>>> servidor/master
