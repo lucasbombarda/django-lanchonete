@@ -136,6 +136,10 @@ venv/
 ENV/
 env.bak/
 venv.bak/
+<<<<<<< HEAD
+=======
+*vscode/
+>>>>>>> servidor/master
 
 # Spyder project settings
 .spyderproject
