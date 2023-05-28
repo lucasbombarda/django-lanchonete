@@ -3,11 +3,17 @@
     <div class="card cartao-pedido" style="width: 18rem;">
         <div class="card-header d-flex justify-content-between">
             <h5 style="color: red;">Mesa: {{ pedido.numero_mesa }}</h5>
-            <h5 style="color:green;">Pedido: {{ pedido.pk }}</h5>
+            <div class="dropdown">
+                <button class="btn btn-primary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false"></button>
+                <ul class="dropdown-menu">
+                    <li><a href="{% url 'pedido:editar_pedido' pedido.pk %}" class="dropdown-item">Editar itens</a></li>
+                    <li><a href="{% url 'pedido:editar_status' pedido.pk %}" class="dropdown-item">Editar status</a></li>
+                    <li><a href="{% url 'pedido:imprimir_cozinha' pedido.pk %}" class="dropdown-item" target="_blank">Imprimir</a></li>
+                    <li><a href="{% url 'pedido:fechar_pedido' pedido.pk %}" class="dropdown-item">Fechar pedido</a></li>
+                </ul>
+            </div>
         </div>
         <div class="card-body">
-            {% if pedido.status %}<p class="card-title">Status: {{ pedido.status }} </p>{% endif %}
-            
             {% for item in pedido.itens.all %}
                 <p class="card-title">{{ item.quantidade }} | {{ item.item }} </p>
                 {% if item.observacao %}
@@ -19,23 +25,6 @@
         </div>
         <ul class="list-group list-group-flush">
             <li class="list-group-item">{{ pedido.criado_em }}</li>
-            <li class="list-group-item">Total: R$ {{ pedido.valor_total|floatformat:"2" }}</li>
           </ul>
-        <div class="card-footer d-flex justify-content-between">
-            <p>
-                <button class="btn btn-info" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-{{ pedido.pk }}" aria-expanded="false" aria-controls="collapse-order">
-                  Ações
-                </button>
-              </p>
-              <div class="collapse" id="collapse-{{ pedido.pk }}">
-                <div class="card card-body">
-                    <a href="{% url 'pedido:editar_pedido' pedido.pk %}" class="btn btn-secondary m-1" role="button">Editar itens</a>
-                    <a href="{% url 'pedido:editar_status' pedido.pk %}" class="btn btn-secondary m-1" role="button">Editar status</a>
-                    <a href="{% url 'pedido:imprimir_cozinha' pedido.pk %}" class="btn btn-secondary m-1" role="button" target="_blank">Imprimir</a>
-                    <a href="{% url 'pedido:fechar_pedido' pedido.pk %}" class="btn btn-secondary m-1" role="button">Fechar pedido</a>
-                </div>
-              </div>
-            
-        </div>
     </div>
 </div>
