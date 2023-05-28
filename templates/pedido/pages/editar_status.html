@@ -1,0 +1,40 @@
+{% extends 'global/pages/base.html' %}
+
+{% block title %}Edição de status{% endblock title %}
+
+{% block header %}{% include 'pedido/partials/header.html' %}{% endblock header %}
+
+{% block navbar %}
+{% include 'global/partials/navbar.html' %}
+{% endblock navbar %}
+
+{% block content %}
+{% include 'global/partials/message.html' %}
+
+<h2 class='text-center'>Editar status do pedido</h2>
+
+<form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    {% for field in form %}
+    <div class="mb-3 campo-formulario">
+        <label for="{{ field.id_for_label }}" class="form-label">{{field.label}}</label>
+        {{ field }}
+
+        {% if field.name == 'imagem' and field.value.url %}
+            <div class='p-2'>
+                <img class="img-lanche img-thumbnail rounded mx-auto d-block" src="{{ field.value.url }}" alt="Imagem do {{ field.name }}">
+            </div>
+        {% endif %}
+        {{ field.errors }}
+    </div>
+
+    {% endfor %}
+        <div class="buttons-login-form pb-2">
+            <a href="{% url 'pedido:home' %}"><button type="button" class="btn btn-danger">Voltar</button></a>
+            <button type="submit" class="btn btn-primary">Editar</button>
+        </div>
+
+</form>
+
+
+{% endblock content %}

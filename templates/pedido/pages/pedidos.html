@@ -1,0 +1,43 @@
+{% extends 'global/pages/base.html' %}
+
+{% block title %}Pedidos{% endblock title %}
+
+{% block header %}
+
+{% include 'pedido/partials/header.html' %}
+
+{% endblock header %}
+
+{% block navbar %}
+
+{% include 'global/partials/navbar.html' %}
+
+{% endblock navbar %}
+
+{% block content %}
+
+{% include 'global/partials/message.html' %}
+{% include 'pedido/partials/procurar_pedido.html' %}
+
+<div class="container row row-cols-auto">
+
+    {% for pedido in pedidos %}
+        {% include 'pedido/partials/card_pedido.html' %}
+        {% empty %}
+        <div class="container text-center p-2">
+        <h2>Nenhum pedido pendente!</h2>
+        <h2>Para inserir novo pedido <a href="{% url 'pedido:novo_pedido' %}">clique aqui</a></h2>
+    </div>
+    {% endfor %}
+</div>
+
+{% endblock content %}
+
+{% block js %}
+{% comment %} <script>
+function autoRefresh() {
+    window.location = window.location.href;
+}
+setInterval('autoRefresh()', 10000);
+</script> {% endcomment %}
+{% endblock js %}

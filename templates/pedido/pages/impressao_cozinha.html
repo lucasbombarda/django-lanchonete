@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Comanda cozinha</title>
+    </head>
+    <body>
+        <style>
+            .container {
+                font-family: 'Courier New', Courier, monospace;
+                font-weight: bold;
+            }
+            .footer {
+                font-family: Arial, Helvetica, sans-serif;
+                font-size: 12px;
+                padding-top: 5px;
+            }
+            .center {
+                display: grid;
+                place-items: center;
+            }
+
+            .dotted {
+                border-style: dotted none dotted none;
+                padding-top: 5px;
+                padding-bottom: 5px;
+            }
+
+            .table-items {
+                width: 100%;
+                text-align: center;
+            }
+
+            .datas-pedido, .subtotal {
+                display: flex;
+                justify-content: space-between;
+            }
+        </style>
+
+        <div class="container cupom-nao-fiscal">
+            <div class="titulo center">
+                <h3>BIG BROTHER LANCHES</h3>
+            </div>
+            
+            <div class="center dotted">PEDIDO N° {{ pedido.pk }} - MESA: {{ pedido.numero_mesa }}</div>
+            
+            <h4 class="center">COMANDA COZINHA</h4>
+            <h4 class="center">HORA IMPRESSÃO: {% now "d/m/Y H:i" %} </h4>
+            <h5 class="center">HORA PEDIDO: {{ pedido.criado_em|date:"d/m/Y" }} {{ pedido.criado_em|time:"H:i" }}</h5>
+
+            <div class="center dotted">ITENS</div>
+            
+                <table class="table-items">
+                    <thead>
+                        <tr>
+                            <th>Produto</th>
+                            <th>Qtde</th>
+                            <th>OBS</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    {% for item in itens %}
+                    <tr>
+                        <td>{{ item.item }}</td>
+                        <td>{{ item.quantidade }}</td>
+                        <td>{% if item.observacao %}{{ item.observacao }} {% else %} - {% endif %}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+             
+
+
+            <div class="footer center dotted">
+                <span>Developer: Lucas Bombarda</span>
+                <span>lucasbombardati@gmail.com</span>
+            </div>
+       
+    </body>
+</html>

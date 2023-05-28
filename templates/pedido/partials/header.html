@@ -1,0 +1,16 @@
+{% load static %}
+<header class="header bg-dark">
+    <div class="main-header container mt-auto py-2 position-relative">
+        
+        <a href="{% url 'usuarios:logout' %}" class="user-login position-absolute top-50 start-0 translate-middle-y">
+            <img src="{% static 'assets/user-logout.png' %}" alt="User Logout" style="max-width: 30px; max-height: 30px;">
+        </a>
+            
+        <h1 class="text-center">
+            <a class="main-logo text-decoration-none text-white-50" href="{% url 'pedido:home' %}">
+                <span class="main-logo-text">Pedidos</span>
+            </a>
+        </h1>
+    
+    </div>
+</header>

@@ -1,0 +1,77 @@
+{% extends 'global/pages/base.html' %}
+
+{% load static %}
+
+{% block title %}Checkout{% endblock title %}
+
+{% block header %}
+
+{% include 'pedido/partials/header.html' %}
+
+{% endblock header %}
+
+{% block navbar %}
+
+{% include 'global/partials/navbar.html' %}
+
+{% endblock navbar %}
+
+{% block content %}
+{% include 'global/partials/message.html' %}
+
+<h2 class='text-center'>Fechar pedido</h2>
+
+<div class="cabecalho">
+    <p>Mesa: {{ pedido.numero_mesa }}</p>
+    <p>Pedido: {{ pedido.pk }}</p>
+    <p>Atendente: {{ pedido.usuario }}</p>
+</div>
+
+<table class="table">
+    <thead>
+      <tr>
+        <th scope="col">Número</th>
+        <th scope="col">Item</th>
+        <th scope="col">Quantidade</th>
+        <th scope="col">Valor unitário</th>
+        <th scope="col">Valor total</th>
+      </tr>
+    </thead>
+    <tbody>
+        {% for item in itens %}
+            <tr>
+                <th scope="row">{{ item.item.pk }}</th>
+                <td>{{ item.item }}</td>
+                <td>{{ item.quantidade }}</td>
+                <td>R$ {{ item.valor_unitario|floatformat:"2" }}</td>
+                <td>R$ {{ item.valor_total_item|floatformat:"2" }}</td>
+            </tr>
+        {% endfor %}
+        <tr>
+            <th scope="row" colspan="4" class="text-center">Total pedido</th>
+            <td> R$ {{ pedido.valor_total|floatformat:"2"  }}</td>
+        </tr>
+    </tbody>
+</table>
+
+<a href="{% url 'pedido:imprimir' pedido.pk %}" class="btn btn-secondary m-1" role="button" target="_blank">Imprimir pedido</a>
+
+<form method="post">
+    {% csrf_token %}
+    {% for field in form_fechar_pedido %}
+    <div class="mb-3 campo-formulario">
+        <label for="{{ field.id_for_label }}" class="form-label">{{field.label}}</label>
+        {{ field }}
+        {{ field.errors }}
+    </div>
+
+    {% endfor %}
+
+    <div class="buttons-login-form pb-2">
+        <a href="{% url 'pedido:home' %}"><button type="button" class="btn btn-danger">Voltar</button></a>
+        <button type="submit" class="btn btn-primary">Fechar pedido</button>
+    </div>
+</form>
+
+
+{% endblock content %}

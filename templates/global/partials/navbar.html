@@ -1,0 +1,34 @@
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark bg-opacity-75" aria-label="Eighth navbar example">
+    <div class="container">
+      <a class="navbar-brand" href="{% url 'painel:home' %}">Home</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar-menu" aria-controls="navbar-menu" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div class="collapse navbar-collapse" id="navbar-menu">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+          
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown" aria-expanded="false">Pedido</a>
+            <ul class="dropdown-menu">
+              <li><a class="dropdown-item" href="{% url 'pedido:home' %}">Listar pedidos pendentes</a></li>
+              <li><a class="dropdown-item" href="{% url 'pedido:listar_pedido' %}">Listar pedidos</a></li>
+              <li><a class="dropdown-item" href="{% url 'pedido:novo_pedido' %}">Incluir pedido</a></li> 
+            </ul>
+          </li>
+
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown" aria-expanded="false">Cardápio</a>
+            <ul class="dropdown-menu">
+              <li><a class="dropdown-item" href="{% url 'cardapio:home' %}">Ver cardápio</a></li>
+              <li><a class="dropdown-item" href="{% url 'cardapio:cardapio_cadastro' %}">Adicionar item</a></li> 
+              <li><a class="dropdown-item" href="{% url 'cardapio:cardapio_cadastro_tipo' %}">Adicionar tipo do item</a></li> 
+              <li><a class="dropdown-item" href="{% url 'cardapio:selecionar_item_edicao' %}">Editar item cardápio</a></li>
+              <li><a class="dropdown-item" href="{% url 'cardapio:selecionar_tipo_item_edicao' %}">Editar tipo item</a></li>
+            </ul>
+          </li>
+        </ul>
+        
+      </div>
+    </div>
+</nav>

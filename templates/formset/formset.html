@@ -1,0 +1,59 @@
+{% load static %}
+<div class="formset-box">
+
+	{% for form in formset %}
+	
+	<div id="{{formset.prefix}}-{{forloop.counter0}}" class="formset pb-3">
+		<div class="card">
+		<div class="col-sm-12 formset-header">
+			<div class="card-header d-flex justify-content-between">
+				<h4 class="formset-title">Item</h4>
+				<h4 class="formset-title"><a class="remove-formset"><img src="{% static 'assets/icon-close.png' %}" alt="Remove Item" style="max-width: 30px; max-height: 30px;"></a></h4>
+			</div>
+		</div>
+		<div class="card-body">
+		{% for field in form.visible_fields %}
+		<div class="col-md">
+			<div class="form-group">
+				
+					<label>{{field.label}}</label>
+					{% if field.errors %}
+					<div class="errorlist">
+					<label>
+						{% for error in field.errors %}
+							{% if field.errors %}
+							
+							<label>
+								{% for error in field.errors %}
+								
+								{{error}}
+								
+								{% endfor %}
+							</label>
+						
+							{% endif %}
+							{% endfor %}
+					</label>
+				</div>
+				{% endif %}
+					{{field}}
+				
+			</div>
+		</div>
+		{% endfor %}
+		
+		{{ form.id }}
+		
+	</div>
+		<div class="text-center pb-3">
+			<a class="btn btn-success add-formset">Adicionar item</a>
+		</div>
+	</div>
+	
+</div>
+
+	{% endfor %}
+
+	{{formset.management_form}}
+
+</div>

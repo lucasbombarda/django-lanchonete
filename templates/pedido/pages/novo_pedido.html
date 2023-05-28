@@ -1,0 +1,61 @@
+{% extends 'global/pages/base.html' %}
+{% load static %}
+
+{% block title %}Novo pedido{% endblock title %}
+
+{% block header %}
+
+{% include 'pedido/partials/header.html' %}
+
+{% endblock header %}
+
+{% block navbar %}
+
+{% include 'global/partials/navbar.html' %}
+
+{% endblock navbar %}
+
+{% block content %}
+{% include 'global/partials/message.html' %}
+<h2 class='text-center'>Novo pedido</h2>
+<form action="{% url 'pedido:confirmar_pedido' %}" method="post">
+
+    {% csrf_token %}
+
+    <div class="cabecalho">
+        {% for field in form %}
+        <div class="mb-3 campo-formulario">
+            <label for="{{ field.id_for_label }}" class="form-label">{{field.label}}</label>
+            {{ field }}
+            {% if field.errors %}
+            <label class="error">
+                {% for error in field.errors %}{{error}}
+                {% endfor %}</label>{% endif %}
+        </div>
+        {% endfor %}
+    </div>
+
+    
+    <div class="item-pedido formset-tab">
+        {% include 'formset/formset.html' with formset=formset %}
+    </div>
+
+    <div class="buttons-login-form pb-2">
+        <a href="{% url 'painel:home' %}"><button type="button" class="btn btn-danger">Voltar</button></a>
+        <button type="submit" class="btn btn-primary">Cadastrar</button>
+    </div>
+</form>
+
+{% endblock content %}
+
+{% block js %}
+
+<script>
+    $(document).ready(function () {
+        $.Admin.formset.init();
+    });
+</script>
+<script src="{% static 'js/script.js' %}"></script>
+
+
+{% endblock js %}
